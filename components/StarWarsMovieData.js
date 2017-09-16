@@ -1,9 +1,8 @@
 import React, { Component } from 'react';
 import { ActivityIndicator, ListView, Text, View, StyleSheet, ScrollView } from 'react-native';
-import StarWarsMovieData from 'StarWarsMovieData';
-import StarWarsMovieRow from 'StarWarsMovieRow';
+import StarWarsMovieRow from './StarWarsMovieRow';
 
-export default class MovieData extends Component {
+export default class StarWarsMovieData extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -48,7 +47,7 @@ export default class MovieData extends Component {
 			<View style={{flex: 1, paddingTop: 20}}>
 				<ListView
 					dataSource={this.state.dataSource}
-					renderRow={(rowData) => <MovieRow {...rowData} />}
+					renderRow={(rowData) => StarWarsMovieRow {...rowData} />}
 				/>
 			</View>
     );

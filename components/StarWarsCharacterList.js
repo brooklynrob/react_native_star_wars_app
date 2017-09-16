@@ -1,35 +1,73 @@
 import React from 'react';
-import { StyleSheet, Text, View, Image, ScrollView } from 'react-native';
+import { ActivityIndicator, StyleSheet, Text, View, Image, ScrollView } from 'react-native';
 import { List, ListView, ListItem } from 'react-native-elements';
+const coding_challenge_json_data = require('../jsondata/CodingChallengeCharacters.json');
+
+// This functions get characters from the API / JSON
 import { fetchCharacters } from '../api/Characters';
-//import { people } from '../config/data';
-//import Person from '../data/PersonRow';
+
+// This function just gets the coding characters -- redundent and soon to be depcrecated
+import { fetchCodingChallengeCharacters } from '../api/CodingChallengeCharacters';
+
+// helper function to set the type of search to do -- Coding Challenge (from JSON) or all from API
+var setSearchType = function (routeName) {
+	if (routeName == "CodingChallengeStackList") {
+		return "CodingChallenge";
+	} else {
+		return "All";
+	}
+}
+
+var setCharacterData = function (searchType, data) {
+	if (searchType == 'CodingChallenge')
+	{
+		return coding_challenge_json_data.characters;
+	} else {
+		return data;
+	}
+}
+
 
 export default class StarWarsCharacterList extends React.Component {
-	state = {
-		characters: [{
-				"name": "Luke Skywalker",
-				"height": "172",
-				"mass": "77",
-			}]
-		}
+	constructor(props) {
+		super(props);
+		console.log("The props are" + JSON.stringify(props));
+		console.log ("this.props.navigation.routeName is " + this.props.navigation.state.routeName);
+		this.state = {
+      isLoading: true,
+			searchType: setSearchType(this.props.navigation.state.routeName)
+    }
+	}
 
-		componentDidMount() {
-			fetchCharacters()
-				.then((data => this.setState({ characters: data })))
-			}
+	componentDidMount() {
+			console.log ("searchtype in list is " + this.state.searchType)
+			return fetchCharacters()
+					.then((data => this.setState ({
+					isLoading: false,
+					charactersDataLoaded: true,
+					all_characters: data,
+					characters: setCharacterData(this.state.searchType, data)})))
+		}
 
 	onLearnMore = (character) => {
     this.props.navigation.navigate('Details', { ...character });
   };
 
-	static navigationOptions = {
-    dataSource: 'Star Wars Characters',
-   };
+	//static navigationOptions = {
+  //  dataSource: 'Star Wars Characters',
+  // };
 
 
 	render() {
-    return (
+		if (this.state.isLoading) {
+			return (
+				<View style={{flex: 1, paddingTop: 20}}>
+					<ActivityIndicator />
+				</View>
+			);
+		}
+
+		return (
 			<ScrollView>
 				<List>
 					{this.state.characters.map((character) => (
@@ -41,7 +79,6 @@ export default class StarWarsCharacterList extends React.Component {
 					))}
 				</List>
 			</ScrollView>
-
     );
   }
 }

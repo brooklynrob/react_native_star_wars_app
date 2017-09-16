@@ -3,14 +3,17 @@ import { ActivityIndicator, StyleSheet, Text, View, Image, ScrollView} from 'rea
 import { Tile, List, ListItem } from 'react-native-elements';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import { fetchCharacterDetails, normalizeCharacter, normalizeCharacters } from '../api/CharacterDetails'
+import StarWarsCharacterError from './StarWarsCharacterError'
+import StarWarsMovieList from './StarWarsMovieList';
 
-class StarWarsCharacterDetail extends Component {
+export default class StarWarsCharacterDetail extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isLoading: true
     }
-    console.log("Props are " + JSON.stringify(props.navigation.state.params));
+    console.log("StarWarsCharacterDetail - props.navigation.state.params are " + JSON.stringify(props.navigation.state.params));
+    console.log("StarWarsCharacterDetail - props.navigation are" + JSON.stringify(props.navigation));
   }
 
   //const {name} = this.props.navigation.state.params.character.name
@@ -19,7 +22,6 @@ class StarWarsCharacterDetail extends Component {
   // Somewhere in here need to see if there was nothing good found using the URL
 
   componentDidMount() {
-
     console.log("this.props.navigation.state.params is " + JSON.stringify(this.props.navigation.state.params))
     return fetchCharacterDetails
       (this.props.navigation.state.params.url,
@@ -33,10 +35,8 @@ class StarWarsCharacterDetail extends Component {
       });
     }
 
-
-
-
   render() {
+    console.log ("this.state is " + JSON.stringify(this.state))
     if (this.state.isLoading) {
 			return (
 				<View style={{flex: 1, paddingTop: 20}}>
@@ -45,11 +45,16 @@ class StarWarsCharacterDetail extends Component {
 			);
 		}
 
-    console.log("State is  " + JSON.stringify(this.state));
-    //const character = this.props.navigation.state.
+    if (this.state.character.exception.exceptionStatus == 'error') {
+      return (
+        <StarWarsCharacterError
+          exception_type={`${this.state.character.exception.exceptions[0].exception_type}`}
+          exception_message={`${this.state.character.exception.exceptions[0].exception_message}`}
+        />
+      )
+    }
 
     return (
-
       <ScrollView>
         <Tile
           imageSrc={{ uri: this.state.character.picture}}
@@ -69,9 +74,10 @@ class StarWarsCharacterDetail extends Component {
 						hideChevron
 					/>
         </List>
+
+        <StarWarsMovieList movies={`${this.state.character.movies}`}></StarWarsMovieList>
+
       </ScrollView>
     );
   }
 }
-
-export default StarWarsCharacterDetail;

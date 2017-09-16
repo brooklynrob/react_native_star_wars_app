@@ -2,9 +2,9 @@ import { fetchCharacterImageURI } from './CharacterImages';
 
 function normalizeCharacter (character) {
   return newcharacter = {
-    api_error: character.api_error,
+    exception: character.excpetion,
+    name: character.name || "No Name Retrieved",
     requested_name: character.requested_name,
-    name:  character.name || "No Name",
     picture: character.picture,
     mass: character.mass || "No mass",
     height: character.height || "No height",
@@ -20,19 +20,32 @@ function normalizeCharacters(characters) {
   });
 }
 
-function checkNamesMatch (requestedName, retrievedName) {
-  if (requestedName != retrievedName) {
-    return "Requested name did not match retrieved name"
+var checkCharacterForErrors = function (character, name) {
+  // Handles coding challenge test requirement for when Obi-Wan can not be found due to bad URL
+  if (character.detail) {
+    return {
+      exceptionStatus: "error",
+      exceptions: [{
+        exception_type: "error",
+        exception_message: character.detail
+      }]
+    }
+  // Handles coding challenge test requirement for when RD-D2 is requested by URL will produce C3-P0 data
+  } else if (character.name != name) {
+      return {
+        exceptionStatus: "warning",
+        exceptions: [{
+          exception_type: "warning",
+          exception_message: "Retrieved Name Does Not Match Requested Name"
+        }]
+      }
   } else {
-    return ""
+    return {
+      exceptionStatus: "none",
+      exceptions: []
+    }
   }
 }
-
-
-
-
-
-
 
 
 // Check for an error on the response -- "detail": "Not found" on Obi Won
@@ -41,37 +54,36 @@ function fetchCharacterDetails(URL, name){
   return fetch(URL)
         .then(response => response.json())
         .then((character) => {
+          //console.log ("Character returned from API is" + JSON.stringify(character));
           return {
-              api_error: {
-                name: checkNamesMatch(name, character.name),
-              },
+              exception: checkCharacterForErrors(character, name),
               name: character.name,
               requested_name: name,
               picture: fetchCharacterImageURI(character.name),
               mass: character.mass,
               height: character.height,
               gender: character.gender,
-              movies: character.movies,
+              movies: character.films,
               url: character.url,
             }
           })
+        //.then((character) => {
+        //  return {
+        //    normalizeCharacter(character)
+        //  }
+        //  })
         .catch((error) => {
-          console.error(error);
+          console.log("Character details could not be loaded and returned this error: " + error);
+          return {
+            error: true,
+            error:[
+              {
+                error_severity: "error",
+                error_message: "An error occured in the response from the server"
+              }
+            ]
+          }
         });
     }
-
-
-function fetchCharacters() {
-      return fetch(URL)
-            .then(response => response.json())
-            .then(data => data.results)
-            .then(results =>results.map(character=> {
-                return {
-                    name: character.name,
-                    url: character.url,
-                }
-            }))
-    }
-
 
 export { fetchCharacterDetails, normalizeCharacter, normalizeCharacters }

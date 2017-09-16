@@ -1,19 +1,21 @@
-import { fetchMovieImageURI } from './MovieImages';
+import { fetchMovieDetails } from './MovieDetails';
 
-// Credit: https://github.com/fabianchoxD/FsvMusic_React_Native/blob/bd8207d2b7c6153111cfb239c2659e09f53d4f9a/src/api-client.js
-const URL = 'https://swapi.co/api/films/?format=json';
-
-function fetchMovies(){
-    return fetch(URL)
-        .then(response => response.json())
-        .then(data => data.results)
-        .then(results =>results.map(movie=> {
-            return {
-                title: movie.title,
-								//picture: fetchMovieImageURI(movie.title),
-								release_date: movie.release_date,
-            }
-        }))
+function toArray (str) {
+	return str.split(',')
 }
+
+let fetchMovies = function(movieURLsAsString) {
+	  return new Promise(function(resolve, reject) {
+			let movies = toArray(movieURLsAsString).map(fetchMovieDetails())
+			console.log ("The movies now are " + movies);
+	    if (movies) {
+	      resolve(movies);
+	    } else {
+	      reject(Error("It broke"));
+	    }
+	  });
+	}
+
+
 
 export{ fetchMovies }
