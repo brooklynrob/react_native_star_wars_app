@@ -5,9 +5,6 @@ import StarWarsCharacterList from '../components/StarWarsCharacterList';
 import StarWarsCharacterDetail from '../components/StarWarsCharacterDetail';
 import StarWarsMovieList from '../components/StarWarsMovieList';
 
-//this
-import CodingChallengeCharacterList from '../components/CodingChallengeCharacterList';
-
 const StarWarsCharacterStack = StackNavigator({
   StarWarsCharacterListAll: {
     screen: StarWarsCharacterList,
@@ -37,8 +34,6 @@ const CodingChallengeStack = StackNavigator({
     }),
   },
 });
-
-
 
 export const Tabs = TabNavigator({
   StarWarsCharactersAll: {

@@ -75,7 +75,12 @@ export default class StarWarsCharacterDetail extends Component {
 					/>
         </List>
 
-        <StarWarsMovieList movies={`${this.state.character.movies}`}></StarWarsMovieList>
+        <StarWarsMovieList
+          character_name={`${this.state.character.name}`}
+          character_url={`${this.state.character.url}`}
+          character_movie_urls={`${this.state.character.character_movie_urls}`}>
+        </StarWarsMovieList>
+
 
       </ScrollView>
     );

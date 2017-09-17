@@ -3,7 +3,7 @@ import { ActivityIndicator, StyleSheet, Text, View, Image, ScrollView} from 'rea
 import { Tile, List, ListItem } from 'react-native-elements';
 import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import { fetchMoviesAll } from '../api/MoviesAll';
-import { fetchMovies } from '../api/Movies';
+import { fetchMovies, getFilmDetails, fetchMoviesMongo } from '../api/Movies';
 import { fetchMovieDetails } from '../api/MovieDetails';
 import MovieRow from './StarWarsMovieRow';
 
@@ -15,11 +15,13 @@ export default class StarWarsMovieList extends React.Component {
 		//if this.props.movies exists that means
 			// we already have the movies (likely from a characters list of movies)
 			// and so we will set this.state.movies to that list and set isLoading to false
-		if (this.props.movies) {
-			console.log("There are movies and they are " + JSON.stringify(this.props.movies));
+		if (this.props.character_movie_urls) {
+			console.log("There are character_movie_urls in props and they are " + JSON.stringify(this.props.character_movie_urls));
 			this.state = {
+				characterName: this.props.character_name,
+				characterURL: this.props.character_url,
 				hasMovies: true,
-				movieURLsAsString: this.props.movies,
+				movieURLs: this.props.character_movie_urls,
 				moviesDataLoaded: false,
 				isLoading: true
 			}
@@ -35,37 +37,53 @@ export default class StarWarsMovieList extends React.Component {
 	}
 
 	componentDidMount() {
-			if (this.state.hasMovies && this.state.movieURLsAsString) {
-				return fetchMovies(this.state.movieURLsAsString)
-					.then((data => this.setState ({
-							isLoading: false,
-							moviesDataLoaded: true,
-							all_movies: data,
-							movies: data })))
+			console.log ("this.state.movieURLs is " + this.state.movieURLs)
+			if (this.state.hasMovies && this.state.movieURLs) {
+				// TO DO: pass the movieURL not the characterURL in following
+				// In present form another server call is required ...
+				// to get characterd and in turn the array of characters' films/movies
+				// This is done in FetchMovies. Doing it this way for now to get
+				// my promise to return right
+				return fetchMovies(this.props.character_url)
+				.then((data => this.setState ({
+						movies: data,
+						isLoading: false,
+						moviesDataLoaded: true,
+					})))
+				.catch((error)=>{
+					console.log("Api call error");
+					alert(error.message);
+					this.setState ({
+						isLoading: true,
+						inError: true
+					})
+					console.log ("this.state in after API error is " + JSON.stringify(this.state))
+				})
 			} else {
 				return fetchMoviesAll()
-						.then((data => this.setState ({
-							isLoading: false,
-							moviesDataLoaded: true,
-							all_movies: data,
-							movies: data })))
+					.then((data => this.setState ({
+						movies: data,
+						isLoading: false,
+						moviesDataLoaded: true,
+						all_movies: data,
+						})
+					))
+				}
 			}
-		}
 
-
-		// https://www.npmjs.com/package/react-native-table-component
 	render() {
-		console.log("The movies is " + JSON.stringify(this.state.movies))
-		console.log ("this.state in MovieList is " + JSON.stringify(this.state))
-    if (this.state.isLoading) {
+		if (this.state.isLoading) {
 			return (
 				<View style={{flex: 1, paddingTop: 20}}>
 					<ActivityIndicator />
 				</View>
 			);
 		}
+		console.log("The movies are " + JSON.stringify(this.state.movies))
+		console.log ("this.state in MovieList right after render is " + JSON.stringify(this.state))
 
-			return (
+
+		return (
 			<ScrollView>
 				<List>
 					{this.state.movies.map((movie) => (

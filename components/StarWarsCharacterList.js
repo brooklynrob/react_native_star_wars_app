@@ -46,6 +46,8 @@ export default class StarWarsCharacterList extends React.Component {
 					isLoading: false,
 					charactersDataLoaded: true,
 					all_characters: data,
+					// this is a bit of a hack in order to set the returned data to
+					// the json
 					characters: setCharacterData(this.state.searchType, data)})))
 		}
 
