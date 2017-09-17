@@ -1,5 +1,7 @@
 import { fetchCharacterImageURI } from './CharacterImages';
 
+// unused yet
+// this is an (immutable state) way of normalizing a character's fields
 function normalizeCharacter (character) {
   return newcharacter = {
     exception: character.excpetion,
@@ -9,7 +11,7 @@ function normalizeCharacter (character) {
     mass: character.mass || "No mass",
     height: character.height || "No height",
     gender: character.gender || "No gender",
-    movies: character.movies || [],
+    movie_urls: character.films || [],
     url: character.url || "No Character URL"
   };
 }
@@ -20,7 +22,7 @@ function normalizeCharacters(characters) {
   });
 }
 
-var checkCharacterForErrors = function (character, name) {
+function checkCharacterForErrors (character, name) {
   // Handles coding challenge test requirement for when Obi-Wan can not be found due to bad URL
   if (character.detail) {
     return {
@@ -54,7 +56,7 @@ function fetchCharacterDetails(URL, name){
   return fetch(URL)
         .then(response => response.json())
         .then((character) => {
-          //console.log ("Character returned from API is" + JSON.stringify(character));
+          console.log ("Character's films returned from API is" + JSON.stringify(character.films));
           return {
               exception: checkCharacterForErrors(character, name),
               name: character.name,
@@ -63,10 +65,11 @@ function fetchCharacterDetails(URL, name){
               mass: character.mass,
               height: character.height,
               gender: character.gender,
-              movies: character.films,
+              character_movie_urls: character.films,
               url: character.url,
             }
           })
+
         //.then((character) => {
         //  return {
         //    normalizeCharacter(character)

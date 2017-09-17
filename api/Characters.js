@@ -18,7 +18,11 @@ function fetchCharacters(searchType) {
 							url: character.url,
 					}
 			}))
+			.catch((error)=>{
+				console.log ("Error in fetchCharacters is " + error);
+			})
 		}
+
 
 
 export{ fetchCharacters }
