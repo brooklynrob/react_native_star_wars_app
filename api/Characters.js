@@ -7,8 +7,7 @@ var getCharacters = function () {
 	return coding_challenge_json_data.characters
 }
 
-function fetchCharacters(searchType) {
-		console.log ("The search type in characters.js is " + searchType);
+function fetchCharacters() {
 		return fetch(URL)
 			.then(response => response.json())
 			.then(data => data.results)

@@ -10,7 +10,6 @@ export default class StarWarsMovieList extends React.Component {
 		this.state = {
 			isLoading: true
 		}
-		console.log("The props in movie list are" + JSON.stringify(props));
 		//     this.props.navigation.navigate('MovieDetails', { ...movie });
 		//console.log ("in movie list this.props.navigation.routeName is " + this.props.navigation.state.routeName);
 		//console.log ("this.props.navigation.routeName is " + this.props.navigation.state.routeName);
@@ -18,7 +17,6 @@ export default class StarWarsMovieList extends React.Component {
 			// we already have the movies (likely from a characters list of movies)
 			// and so we will set this.state.movies to that list and set isLoading to false
 		if (this.props.character_movie_urls) {
-			console.log("There are character_movie_urls in props and they are " + JSON.stringify(this.props.character_movie_urls));
 			this.state = {
 				characterName: this.props.character_name,
 				characterURL: this.props.character_url,
@@ -39,14 +37,14 @@ export default class StarWarsMovieList extends React.Component {
 	}
 
 	componentDidMount() {
-			console.log ("this.state.movieURLs is " + this.state.movieURLs)
 			if (this.state.hasMovies && this.state.movieURLs) {
 				// TO DO: pass the movieURL not the characterURL in following
 				// In present form another server call is required ...
 				// to get characterd and in turn the array of characters' films/movies
 				// This is done in FetchMovies. Doing it this way for now to get
 				// my promise to return right
-				return fetchMovies(this.props.character_url)
+				return fetchMovies(this.state.movieURLs)
+				//return fetchMovies(this.props.character_url)
 				.then((data => this.setState ({
 						movies: data,
 						isLoading: false,

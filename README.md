@@ -13,6 +13,8 @@ This was developed for a coding challenge I was given.
 * Clean-up and Nits
 	* Right now doing a duplicate call to API - see Movie.js comments - to get characters movies. Fix this.
 	* Titles
+	* Clean up semi-colons
+	* Clean up indenting
 	* Clean up tabs
 	* Clean up async
 	* Remove extraneous navigation components
@@ -23,8 +25,7 @@ This was developed for a coding challenge I was given.
 		* Do not just read first exception from exception array
 
 ## References
-Sites that were useful references for various idioms, design pattersn, and best practices.
+Sites and repos that were useful references for various idioms, design patterns, and best practices.
 * https://pouchdb.com/2015/03/05/taming-the-async-beast-with-es7.html
-* https://hackernoon.com/getting-started-with-react-navigation-the-navigation-solution-for-react-native-ea3f4bd786a4
+* https://hackernoon.com/getting-started-with-react-navigation-the-navigation-solution-for-react-native-ea3f4bd786a4 (Tab Navigator concept)
 * https://medium.com/differential/react-native-basics-how-to-use-the-listview-component-a0ec44cf1fe8
-* https://github.com/fabianchoxD/FsvMusic_React_Native/blob/bd8207d2b7c6153111cfb239c2659e09f53d4f9a/src/api-client.js

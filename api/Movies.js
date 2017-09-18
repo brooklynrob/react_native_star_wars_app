@@ -24,18 +24,15 @@ const returnMovies = async (movie_urls) => {
 	return Promise.all(movies)
 }
 
-// fetchMovies, needs to be refactored
-// Right now code is going back to character to get the movies
-// But the array of characters URLs is already known and should be
-// the starting point. Doing it this way is causing a pernious error
-// with the map so for now doing it this way
-const fetchMovies = async (character_url) => {
-// const fetchMovies = async (character_movie_urls) => {
+// The commented out code is the original way I had this set up
+// Leaving here as I may go back to this and use as a backup method
+// const fetchMovies = async (character_url) => {
+const fetchMovies = async (character_movie_urls) => {
 	try {
-		const data = (await fetch(character_url))
-		const dataJson = (await data.json())
-		const character_movie_urls = (await dataJson.films)
-		// character_movie_urls = Array.from(character_movie_urls)
+		//const data = (await fetch(character_url))
+		//const dataJson = (await data.json())
+		//const character_movie_urls = (await dataJson.films)
+		character_movie_urls = character_movie_urls.split(',')
 		const movies = (await returnMovies((character_movie_urls)))
 		const my_movies = (await movies)
 		return my_movies

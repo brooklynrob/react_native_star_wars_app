@@ -8,9 +8,6 @@ export default class StarWarsMovieDetail extends Component {
     this.state = {
       isLoading: true
     }
-    console.log("StarWarsMovieDetail - props " + JSON.stringify(this.props));
-    console.log("StarWarsMovieDetail - props.navigation.state.params are " + JSON.stringify(props.navigation.state.params));
-    console.log("StarWarsMovieDetail - props.navigation are" + JSON.stringify(props.navigation));
   }
 
   componentDidMount() {

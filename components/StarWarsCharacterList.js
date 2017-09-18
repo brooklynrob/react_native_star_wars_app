@@ -31,8 +31,7 @@ var setCharacterData = function (searchType, data) {
 export default class StarWarsCharacterList extends React.Component {
 	constructor(props) {
 		super(props);
-		console.log("The props are" + JSON.stringify(props));
-		console.log ("this.props.navigation.routeName is " + this.props.navigation.state.routeName);
+		//console.log ("this.props.navigation.routeName is " + this.props.navigation.state.routeName);
 		this.state = {
       isLoading: true,
 			searchType: setSearchType(this.props.navigation.state.routeName)
@@ -40,14 +39,13 @@ export default class StarWarsCharacterList extends React.Component {
 	}
 
 	componentDidMount() {
-		console.log ("searchtype in list is " + this.state.searchType);
 		return fetchCharacters()
 		.then((data => this.setState ({
 			isLoading: false,
 			charactersDataLoaded: true,
 			all_characters: data,
 			// this is a bit of a hack in order to set the returned data to
-			// the json
+			// the json if we're doing
 			characters: setCharacterData(this.state.searchType, data)})))
 		}
 

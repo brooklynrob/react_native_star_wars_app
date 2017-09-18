@@ -13,7 +13,7 @@ function normalizeCharacter (character) {
     mass: character.mass || "No mass",
     height: character.height || "No height",
     gender: character.gender || "No gender",
-    movie_urls: character.films,
+    character_movie_urls: character.character_movie_urls,
     url: character.url || "No Character URL"
   };
 }
