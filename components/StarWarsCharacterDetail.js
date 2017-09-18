@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View, Image, ScrollView} from 'react-native';
 import { Tile, List, ListItem } from 'react-native-elements';
-import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import { fetchCharacterDetails } from '../api/CharacterDetails'
 import StarWarsCharacterError from './StarWarsCharacterError'
 import StarWarsMovieList from './StarWarsMovieList';
