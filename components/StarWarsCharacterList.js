@@ -7,7 +7,7 @@ const coding_challenge_json_data = require('../jsondata/CodingChallengeCharacter
 import { fetchCharacters } from '../api/Characters';
 
 // This function just gets the coding characters -- redundent and soon to be depcrecated
-import { fetchCodingChallengeCharacters } from '../api/CodingChallengeCharacters';
+//import { fetchCodingChallengeCharacters } from '../api/CodingChallengeCharacters';
 
 // helper function to set the type of search to do -- Coding Challenge (from JSON) or all from API
 var setSearchType = function (routeName) {
@@ -40,15 +40,15 @@ export default class StarWarsCharacterList extends React.Component {
 	}
 
 	componentDidMount() {
-			console.log ("searchtype in list is " + this.state.searchType)
-			return fetchCharacters()
-					.then((data => this.setState ({
-					isLoading: false,
-					charactersDataLoaded: true,
-					all_characters: data,
-					// this is a bit of a hack in order to set the returned data to
-					// the json
-					characters: setCharacterData(this.state.searchType, data)})))
+		console.log ("searchtype in list is " + this.state.searchType);
+		return fetchCharacters()
+		.then((data => this.setState ({
+			isLoading: false,
+			charactersDataLoaded: true,
+			all_characters: data,
+			// this is a bit of a hack in order to set the returned data to
+			// the json
+			characters: setCharacterData(this.state.searchType, data)})))
 		}
 
 	onLearnMore = (character) => {

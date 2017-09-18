@@ -19,11 +19,14 @@ export default class StarWarsCharacterError extends Component {
 //						title={`${character.name.toUpperCase()}`}
 		return (
 			<Text style={{fontWeight: 'bold'}}>
-  			There was an exception. The exception type was:
-					<Text style={{color: 'red'}}>
-						{this.state.exception_type}
+  			We are sorry. There was an exception. The exception type was: 
+				<Text style={{color: 'red'}}>
+					{this.state.exception_type}
   			</Text>
-				and the message was: &quot;{this.state.exception_message}&quot;.
+				. The message was returned was:
+				<Text style={{color: 'red'}}>
+					{this.state.exception_message}
+				</Text>.
 			</Text>
     );
   }

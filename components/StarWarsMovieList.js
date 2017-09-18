@@ -1,16 +1,18 @@
 import React, { Component } from 'react';
 import { ActivityIndicator, StyleSheet, Text, View, Image, ScrollView} from 'react-native';
 import { Tile, List, ListItem } from 'react-native-elements';
-import { Table, TableWrapper, Row, Rows, Col, Cols, Cell } from 'react-native-table-component';
 import { fetchMoviesAll } from '../api/MoviesAll';
-import { fetchMovies, getFilmDetails, fetchMoviesMongo } from '../api/Movies';
-import { fetchMovieDetails } from '../api/MovieDetails';
-import MovieRow from './StarWarsMovieRow';
+import { fetchMovies } from '../api/Movies';
 
 export default class StarWarsMovieList extends React.Component {
 	constructor(props) {
 		super(props);
-		console.log("The props are" + JSON.stringify(props));
+		this.state = {
+			isLoading: true
+		}
+		console.log("The props in movie list are" + JSON.stringify(props));
+		//     this.props.navigation.navigate('MovieDetails', { ...movie });
+		//console.log ("in movie list this.props.navigation.routeName is " + this.props.navigation.state.routeName);
 		//console.log ("this.props.navigation.routeName is " + this.props.navigation.state.routeName);
 		//if this.props.movies exists that means
 			// we already have the movies (likely from a characters list of movies)
@@ -52,12 +54,12 @@ export default class StarWarsMovieList extends React.Component {
 					})))
 				.catch((error)=>{
 					console.log("Api call error");
+					console.log ("this.state in after API error is " + JSON.stringify(this.state));
 					alert(error.message);
 					this.setState ({
 						isLoading: true,
 						inError: true
 					})
-					console.log ("this.state in after API error is " + JSON.stringify(this.state))
 				})
 			} else {
 				return fetchMoviesAll()
@@ -71,6 +73,11 @@ export default class StarWarsMovieList extends React.Component {
 				}
 			}
 
+	onLearnMore = (movie) => {
+    this.props.navigation.navigate('MovieDetails', { ...movie });
+  };
+
+
 	render() {
 		if (this.state.isLoading) {
 			return (
@@ -79,8 +86,8 @@ export default class StarWarsMovieList extends React.Component {
 				</View>
 			);
 		}
-		console.log("The movies are " + JSON.stringify(this.state.movies))
-		console.log ("this.state in MovieList right after render is " + JSON.stringify(this.state))
+		//console.log("The movies are " + JSON.stringify(this.state.movies))
+		//console.log ("this.state in MovieList right after render is " + JSON.stringify(this.state))
 
 
 		return (
@@ -90,7 +97,7 @@ export default class StarWarsMovieList extends React.Component {
 						<ListItem
 							key={movie.title}
 							title={`${movie.title.toUpperCase()}`}
-							//onPress={() => this.onLearnMore(character)}
+							onPress={() => this.onLearnMore(movie)}
 						/>
 					))}
 				</List>

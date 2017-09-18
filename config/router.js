@@ -4,6 +4,7 @@ import { TabNavigator, StackNavigator } from 'react-navigation';
 import StarWarsCharacterList from '../components/StarWarsCharacterList';
 import StarWarsCharacterDetail from '../components/StarWarsCharacterDetail';
 import StarWarsMovieList from '../components/StarWarsMovieList';
+import StarWarsMovieDetail from '../components/StarWarsMovieDetail';
 
 const StarWarsCharacterStack = StackNavigator({
   StarWarsCharacterListAll: {
@@ -18,19 +19,50 @@ const StarWarsCharacterStack = StackNavigator({
       title: `${navigation.state.params.name.toUpperCase()}`,
     }),
   },
+  MovieDetails: {
+    screen: StarWarsMovieDetail,
+    navigationOptions: ({ navigation }) => ({
+      //title: `${navigation.state.params.title.toUpperCase()}`,
+      title: `Movie Details`,
+    }),
+  },
 });
 
 const CodingChallengeStack = StackNavigator({
   CodingChallengeStackList: {
     screen: StarWarsCharacterList,
     navigationOptions: ({ navigation, screenProps }) => ({
-      title: `ALL`,
+      title: `From File`,
     }),
   },
   Details: {
     screen: StarWarsCharacterDetail,
     navigationOptions: ({ navigation }) => ({
       title: `${navigation.state.params.name.toUpperCase()}`,
+    }),
+  },
+  MovieDetails: {
+    screen: StarWarsMovieDetail,
+    navigationOptions: ({ navigation }) => ({
+      //title: `${navigation.state.params.title.toUpperCase()}`,
+      title: `Movie Details`,
+    }),
+  },
+});
+
+
+const StarWarsMovieStack = StackNavigator({
+  StarWarsMovieList: {
+    screen: StarWarsMovieList,
+    navigationOptions: ({ navigation, screenProps }) => ({
+      title: `Movies`,
+    }),
+  },
+  MovieDetails: {
+    screen: StarWarsMovieDetail,
+    navigationOptions: ({ navigation }) => ({
+      //title: `${navigation.state.params.title.toUpperCase()}`,
+      title: `Movie Details`,
     }),
   },
 });
@@ -45,11 +77,11 @@ export const Tabs = TabNavigator({
   CodingChallenge: {
     screen: CodingChallengeStack,
     navigationOptions: {
-      title: 'CodingChallenge',
+      title: 'Coding Challenge',
     }
   },
-	StarWarsMovieList: {
-    screen: StarWarsMovieList,
+	StarWarsMovies: {
+    screen: StarWarsMovieStack,
     navigationOptions: {
       title: 'Movies',
     }

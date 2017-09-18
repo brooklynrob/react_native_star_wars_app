@@ -8,11 +8,15 @@ function fetchMoviesAll(){
     .then(results =>results.map(movie=> {
       return {
         title: movie.title,
-        release_date: movie.release_date,
-        director: movie.director,
-        //picture: fetchMovieImageURI(movie.title),
+  			release_date: movie.release_date,
+  			picture: fetchMovieImageURI(movie.title),
+  			director: movie.director,
+  			producer: movie.producer,
       }
     }))
+    .catch((error)=>{
+      console.log ("Error in fetchMoviesAll " + error);
+    })
 }
 
 export{ fetchMoviesAll }

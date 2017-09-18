@@ -1,5 +1,7 @@
-import { fetchMovieDetails } from './MovieDetails';
+import { fetchMovieImageURI } from './MovieImages';
 
+// this function returns the details of a single film
+// based on the
 const getFilmDetails = async (movie_url) => {
 		movie_url_to_search = movie_url + "?format=json"
 		//console.log ("URL to retrive is " + movie_url_to_search);
@@ -10,10 +12,14 @@ const getFilmDetails = async (movie_url) => {
 		const movie =  {
 			title: dataJson.title,
 			release_date: dataJson.release_date,
-			director: dataJson.director
+			picture: fetchMovieImageURI(dataJson.title),
+			director: dataJson.director,
+			producer: dataJson.producer,
 		}
 		return movie;
 	}
+
+
 
 const returnMovies = async (movie_urls) => {
     const movies = await (movie_urls.map((movie_url) =>
@@ -37,7 +43,7 @@ const fetchMovies = async (character_url) => {
 			// console.log ("the movie URLs in fetchMovies are " + character_movie_urls)
 			const movies = (await returnMovies((character_movie_urls)))
 			const my_movies = (await movies)
-	  	// console.log("Movies to return is " + JSON.stringify(my_movies));
+	  	console.log("Movies to return is " + JSON.stringify(my_movies));
 			return my_movies
 		} catch (err) {
     	console.log(err)
