@@ -1,22 +1,19 @@
-import React, { Component } from 'react';
-import { ActivityIndicator, StyleSheet, Text, View, Image, ScrollView} from 'react-native';
-import { Tile, List, ListItem } from 'react-native-elements';
+import React, { Component } from 'react'
+import { ActivityIndicator, StyleSheet, Text, View, Image, ScrollView} from 'react-native'
+import { Tile, List, ListItem } from 'react-native-elements'
 import { fetchCharacterDetails } from '../api/CharacterDetails'
 import StarWarsCharacterError from './StarWarsCharacterError'
-import StarWarsMovieList from './StarWarsMovieList';
+import StarWarsMovieList from './StarWarsMovieList'
 
 export default class StarWarsCharacterDetail extends Component {
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
       isLoading: true
     }
-    console.log("StarWarsCharacterDetail - props.navigation.state.params are " + JSON.stringify(props.navigation.state.params));
-    console.log("StarWarsCharacterDetail - props.navigation are" + JSON.stringify(props.navigation));
   }
 
   componentDidMount() {
-    //console.log("this.props.navigation.state.params is " + JSON.stringify(this.props.navigation.state.params))
     return fetchCharacterDetails
       (this.props.navigation.state.params.url,
       this.props.navigation.state.params.name)
@@ -25,22 +22,21 @@ export default class StarWarsCharacterDetail extends Component {
       characterDataLoaded: true,
       character: data })))
     .catch((error) => {
-      console.error(error);
-    });
+      console.error(error)
+    })
   }
 
   render() {
-    //console.log ("this.state is " + JSON.stringify(this.state))
     if (this.state.isLoading) {
 			return (
         <View style={{flex: 1, paddingTop: 20}}>
           <ActivityIndicator />
         </View>
-      );
+      )
     }
 
     if (this.state.character.exception.exceptionStatus == 'error') {
-      alert(this.state.character.exception.exceptions[0].exception_message);
+      alert(this.state.character.exception.exceptions[0].exception_message)
       return (
         <StarWarsCharacterError
           exception_type={`${this.state.character.exception.exceptions[0].exception_type}`}
@@ -50,7 +46,7 @@ export default class StarWarsCharacterDetail extends Component {
     }
 
     if (this.state.character.exception.exceptionStatus == 'warning') {
-      alert(this.state.character.exception.exceptions[0].exception_message);
+      alert(this.state.character.exception.exceptions[0].exception_message)
     }
 
     return (
@@ -88,6 +84,6 @@ export default class StarWarsCharacterDetail extends Component {
 
 
       </ScrollView>
-    );
+    )
   }
 }
