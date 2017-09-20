@@ -1,6 +1,16 @@
 ## About this app
 This was developed for a coding challenge I was given.
 
+## Installation
+* Assumptions
+	* yarn installed on machine
+	* Expo installed on mobile device on same local network
+* Commands to run:
+	* `git clone git@github.com:brooklynrob/react_native_star_wars_app.git`
+	*	`cd react_native_star_wars_app/`
+	* `yarn install`
+	* `yarn start`
+
 ## Notes
 * "films" in the API are called "movies" in the app
 * Used async/await in Movies.js primarily to better handle a .map I do inside there; otherwise this code use Promises
